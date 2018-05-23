@@ -6,6 +6,7 @@
 package interfaceproyecyobicicletas;
 
 import Conectar.Conexion;
+import java.awt.GridBagLayout;
 import java.sql.*;
 import javax.swing.JOptionPane;
 /**
@@ -16,7 +17,8 @@ public class PanelUsuario extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelUsuario
-     */
+     */    
+    
     public PanelUsuario() {
         initComponents();
     }
@@ -73,6 +75,12 @@ public class PanelUsuario extends javax.swing.JPanel {
 
         lblIdentificacionUsuario.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         lblIdentificacionUsuario.setText("Identificación:");
+
+        txtIdentificacionUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIdentificacionUsuarioKeyPressed(evt);
+            }
+        });
 
         lblTelefonoUsuario.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         lblTelefonoUsuario.setText("Telefono:");
@@ -162,12 +170,27 @@ public class PanelUsuario extends javax.swing.JPanel {
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/users.png"))); // NOI18N
         btnModificar.setText(" Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/user-minus.png"))); // NOI18N
         btnEliminar.setText(" Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagen/user.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -248,8 +271,126 @@ public class PanelUsuario extends javax.swing.JPanel {
         nombre = txtNombreUsuario.getText();
         apellido = txtApellidoUsuario.getText();
         telefono = txtTelefonoUsuario.getText();
+        sql = "INSERT INTO tblCliente(identificacionCliente,NombreCliente,ApellidoCliente,TelefonoCliente) values(?,?,?,?)";
         
+        try{
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, identificacion);
+            pst.setString(2, nombre);
+            pst.setString(3, apellido);
+            pst.setString(4, telefono);
+            
+            int registro = pst.executeUpdate();
+            
+            if (registro > 0){
+                JOptionPane.showMessageDialog(null, "Registro almacenado correctamente");
+                limpiar();
+            }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Registro no almacenado " + e.getMessage());
+        }        
     }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
+        FrameConsultarUsuario consultarUsuario = new FrameConsultarUsuario();
+        consultarUsuario.setVisible(true);
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        Conexion cc = new Conexion();
+        Connection cn = cc.conexion();
+        String identificacion,nombre,apellido,telefono;
+        String sql = "";
+        identificacion = txtIdentificacionUsuario.getText();
+        nombre = txtNombreUsuario.getText();
+        apellido = txtApellidoUsuario.getText();
+        telefono = txtTelefonoUsuario.getText();
+        
+        sql = "UPDATE tblCliente SET "
+            + "NombreCliente = '"+nombre+"', "
+            + "ApellidoCliente = '"+apellido+"',"
+            + "TelefonoCliente = '"+telefono+"'"                         
+            + " WHERE identificacionCliente = '"+identificacion+"'";
+        
+        try{
+            PreparedStatement pst = cn.prepareStatement(sql);
+            int registro=pst.executeUpdate();
+            
+            if (registro>0){
+                JOptionPane.showMessageDialog(null, "Registro actualizado correctamente");
+                limpiar();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Registro no encontrado para actualizar");
+                limpiar();
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Registro no actualizado " + e.getMessage()); 
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void txtIdentificacionUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdentificacionUsuarioKeyPressed
+        // TODO add your handling code here:
+        Conexion cc = new Conexion();
+        Connection cn = cc.conexion();
+        String identificacion;
+        String sql = "";
+        identificacion = txtIdentificacionUsuario.getText();
+        sql = "Select NombreCliente,ApellidoCliente,TelefonoCliente from  tblCliente where "
+            + "  identificacionCliente='"+identificacion+"'";
+        
+        String datos[] = new String [3];
+        
+        try{
+             PreparedStatement pst = cn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery(sql);            
+             
+             while (rs.next()){
+                 datos[0] = rs.getString(1);
+                 datos[1] = rs.getString(2);
+                 datos[2] = rs.getString(3);
+                 
+                 txtNombreUsuario.setText(datos[0]);
+                 txtApellidoUsuario.setText(datos[1]);
+                 txtTelefonoUsuario.setText(datos[2]);
+             }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Registro no encontrado " + e.getMessage());
+        }
+    }//GEN-LAST:event_txtIdentificacionUsuarioKeyPressed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        Conexion cc = new Conexion();
+        Connection cn = cc.conexion();
+        String identificacion;
+        String sql = "";
+        identificacion = txtIdentificacionUsuario.getText();
+        sql="DELETE from  tblCliente where "
+            +"  identificacionCliente='"+identificacion+"'";
+        
+        try{
+            PreparedStatement pst = cn.prepareStatement(sql);
+            int registro=pst.executeUpdate();
+            
+            if (registro>0){
+                JOptionPane.showMessageDialog(null, "Registro eliminado correctamente");
+                limpiar();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Registro no encontrado para eliminar");
+                limpiar();
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Registro no eliminado " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

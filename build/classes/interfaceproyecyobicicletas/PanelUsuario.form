@@ -194,6 +194,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdentificacionUsuario">
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtIdentificacionUsuarioKeyPressed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblTelefonoUsuario">
           <Properties>
@@ -314,6 +317,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value=" Modificar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminar">
           <Properties>
@@ -322,6 +328,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value=" Eliminar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnConsultar">
           <Properties>
@@ -330,6 +339,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Consultar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

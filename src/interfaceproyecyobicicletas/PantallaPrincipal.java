@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package interfaceproyecyobicicletas;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
