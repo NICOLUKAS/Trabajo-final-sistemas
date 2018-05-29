@@ -76,6 +76,11 @@ public class PanelUsuario extends javax.swing.JPanel {
         lblIdentificacionUsuario.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         lblIdentificacionUsuario.setText("Identificación:");
 
+        txtIdentificacionUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdentificacionUsuarioActionPerformed(evt);
+            }
+        });
         txtIdentificacionUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtIdentificacionUsuarioKeyPressed(evt);
@@ -122,7 +127,7 @@ public class PanelUsuario extends javax.swing.JPanel {
                         .addComponent(lblBicicletaUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblConsulta)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,6 +396,10 @@ public class PanelUsuario extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Registro no eliminado " + e.getMessage());
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtIdentificacionUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdentificacionUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdentificacionUsuarioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
